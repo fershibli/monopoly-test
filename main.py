@@ -1,6 +1,6 @@
 import argparse
 import logging as log
-from analysis import run_analysis
+from run import run_analysis
 
 def main(args):
   if args.verbose:

@@ -1,16 +1,17 @@
 from csv import DictReader
+from os import path
+from game_analysis import GameAnalysis
 from monopoly_game import Building
 from monopoly_game import GameTable
 from monopoly_game.player import CautiousPlayer
 from monopoly_game.player import DemandingPlayer
 from monopoly_game.player import ImpulsivePlayer
 from monopoly_game.player import RandomPlayer
-from os import path
 
-"""This code instantiates, runs and analyzes the monopoly_game components
-TODO: implement a class to better handle this functionalities
+"""This method instantiates all monopoly_game components
+returns GameTable loaded
 """
-def run_analysis():
+def load_game():
   game_table = GameTable()
 
   game_table.add_player(CautiousPlayer("Cautious Player"))
@@ -37,5 +38,12 @@ def run_analysis():
     building_count += 1
     if building_count == 20:
       break
+  return game_table
 
-  game_table.run()
+"""this method instantiates and executes GameAnalysis, 
+which will execute and analyze the GameTable instance.
+"""
+def run_analysis():
+  game_table = load_game()
+  game_analysis = GameAnalysis(game_table)
+  game_analysis.run()
