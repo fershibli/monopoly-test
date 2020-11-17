@@ -23,7 +23,7 @@ class GameAnalysis:
     print(f'\nTimed out matches: {self._timedout_matches}')
 
   def print_average_match_turns(self):
-    print(f'\nAverage of turns in a match: {self._average_match_turns}')
+    print(f'\nAverage of turns in a match: {round(self._average_match_turns, 2)}')
 
   """This method calculates and prints the winning percentage of each player.
   Also determinates the player with the best behavior - to be printed in another method
@@ -37,7 +37,7 @@ class GameAnalysis:
       player_name = player_data["name"]
       winning_count = player_data["winning_count"]
       ratio = winning_count/self._simulations
-      percentage = f'{round(ratio*100,2)}%'
+      percentage = f'{round(ratio*100, 2)}%'
       print(f'{player_name} (instanece of {player_class}) won {winning_count} times')
       print(f'    [{"|"*int(ratio*20)}{"="*int((1-ratio)*20)}] {percentage}')
       if self._best_behavior_data["winning_count"] < winning_count:
