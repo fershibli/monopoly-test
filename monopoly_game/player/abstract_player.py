@@ -10,6 +10,7 @@ class AbstractPlayer(ABC):
     self._starting_money = money
     self._position = 0
     self._is_playing = True
+    self._winning_count = 0
 
   def reset(self):
     self._position = 0
@@ -24,6 +25,9 @@ class AbstractPlayer(ABC):
   
   def get_position(self):
     return self._position
+  
+  def get_winning_count(self):
+    return self._winning_count
   
   def is_playing(self):
     return self._is_playing
@@ -52,6 +56,9 @@ class AbstractPlayer(ABC):
 
   def move_position(self, movement):
     self._position += movement
+  
+  def won(self):
+    self._winning_count += 1
 
   @abstractmethod
   def do_buy(self, building): 

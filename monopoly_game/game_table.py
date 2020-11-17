@@ -98,4 +98,5 @@ class GameTable:
       self._turns_counter += 1
     if not self._winner: 
       self._winner = next(filter(lambda player: player.is_playing(), self._players))
+    self._winner.won()
     log.info(f'player {self._winner.get_name()} won the game')
