@@ -16,6 +16,15 @@ class GameTable:
 
     self.shuffle_players()
 
+  def reset(self):
+    self.winner = None
+    self.turns_counter = 0
+    self.shuffle_players()
+    for player in self.players:
+      player.reset()
+    for building in self.buildings:
+      building.reset()
+
   def add_player(self, player):
     self.players.append(player)
 

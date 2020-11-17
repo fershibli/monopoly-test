@@ -5,7 +5,12 @@ class Building:
     self.sell_cost = sell_cost
     self.rent_cost = rent_cost
     self.owner = None
+  
+  def reset(self):
+    self.owner = None
+
   def expropriate_building(self):
     self.owner = None
+
   def appropriate_building(self, player):
     self.owner = player

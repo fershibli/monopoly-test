@@ -4,11 +4,17 @@ from abc import ABC, abstractmethod
 The only abstractmethod so far, is do_buy, which decides if the player is willing to buy a building.
 """
 class AbstractPlayer(ABC):
-  def __init__(self, name, money = 0):
+  def __init__(self, name, money = 300):
     self.name = name
     self.money = money
+    self.staring_money = money
     self.position = 0
     self.lose = False
+
+  def reset(self):
+    self.position = 0
+    self.lose = False
+    self.money = self.starting_money
 
   def receive_money(self, ammount):
     self.money += ammount
