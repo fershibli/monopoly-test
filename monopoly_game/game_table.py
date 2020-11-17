@@ -13,7 +13,7 @@ class GameTable:
     self._winner = None
     self._turns_counter = 0
     self._turns_limit = turns_limit
-
+    """do the first shuffle"""
     self.shuffle_players()
 
   def reset(self):
