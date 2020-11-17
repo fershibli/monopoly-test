@@ -1,6 +1,4 @@
-'''
-This class manages all commom actions and attributes of a single Property of the GameTable class.
-'''
+"""This class manages all commom actions and attributes of a single Property of the GameTable class."""
 class Property:
   def __init__(self, name, sell_cost, rent_cost):
     self.name =  name
