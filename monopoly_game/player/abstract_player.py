@@ -39,4 +39,4 @@ class AbstractPlayer(ABC):
 
   @abstractmethod
   def do_buy(self, property): 
-    pass
+    return self.money > property.sell_cost
