@@ -1,8 +1,4 @@
 '''
-This package only contains Player class
-'''
-
-'''
 This class manages all commom actions and attributes of a single Property of the GameTable class.
 '''
 class Property:
