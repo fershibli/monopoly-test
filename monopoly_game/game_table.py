@@ -55,8 +55,9 @@ class GameTable:
   If the player position exceeds the number of buildings, the movement is subtracted with this number, simulating a circuit.
   """
   def move_player(self, player):
-    player.move_position(self.roll_dice())
-    log.info(f'player moved to: {player.get_position()}')
+    dice_result = self.roll_dice()
+    player.move_position(dice_result)
+    log.info(f'player got dice {dice_result}, moved to: {player.get_position()}')
     if (player.get_position() >= len(self._buildings)):
       player.move_position(-len(self._buildings))
       log.info(f'player realocated to: {player.get_position()}')
@@ -69,34 +70,42 @@ class GameTable:
   """
   def enter_building(self, player):
     building = self._buildings[player.get_position()]
+    log.info(f'{player.get_name()} is entering {building.get_name()}')
     if (player != building.get_owner()):
       if (building.get_owner()):
         player.pay_rent(building)
+        log.info(f'Payed {building.get_rent_cost()}$ for rent to {building.get_owner().get_name()}')
       elif (player.do_buy(building)):
         player.buy_building(building)
         building.appropriate_building(player)
+        log.info(f'Bought building for {building.get_sell_cost()}$')
 
   """Applied all the previous actions, the given player must end its shift.
   The following function verifies if the player lost the game and, 
     if confirmed, expropriates all its buildings in this game table
   """
-  def end_players_shift(self, player):
+  def end_shift(self, player):
     if (not player.is_playing()):
       log.info(f'player {player.get_name()} lost the game')
       for building in filter(lambda building: building.get_owner() == player, self._buildings):
         building.expropriate_building()
 
+  def end_turn(self):
+    self._turns_counter += 1
+    current_players = list(filter(lambda player: player.is_playing(), self._players))
+    if len(current_players) == 1:
+      self._winner = current_players[0]
+
   """Runs the phases of a turn, iterating players until the end condition of the game is fulfiled."""
   def run(self):
     while not self._winner and not self.has_timedout():
-      for player in self._players:
-        if player.is_playing():
-          log.info(f'player {player.get_name()} turn')
-          self.move_player(player)
-          self.enter_building(player)
-          self.end_players_shift(player)
-      self._turns_counter += 1
+      for player in filter(lambda player: player.is_playing(), self._players):
+        log.info(f'player {player.get_name()} turn')
+        self.move_player(player)
+        self.enter_building(player)
+        self.end_shift(player)
+      self.end_turn()
     if not self._winner: 
       self._winner = next(filter(lambda player: player.is_playing(), self._players))
     self._winner.won()
-    log.info(f'player {self._winner.get_name()} won the game')
+    log.info(f'player {self._winner.get_name()} won the game in {self._turns_counter} turns, with {self._winner.get_money()}$.')
