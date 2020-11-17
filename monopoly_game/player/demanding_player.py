@@ -6,4 +6,4 @@ class DemandingPlayer(AbstractPlayer):
   by checking if its rent_cost is higher than 50.
   """
   def do_buy(self, building): 
-    return super().do_buy(building) and building.rent_cost > 50
+    return super().do_buy(building) and building.get_rent_cost() > 50

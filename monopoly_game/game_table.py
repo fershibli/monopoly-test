@@ -6,37 +6,37 @@ According to the phases of a players shift,
 """
 class GameTable:
   def __init__(self, players = [], buildings = [], dice_faces = 6, turn_payment = 100, turns_limit = 1000):
-    self.players = players
-    self.buildings = buildings
-    self.dice_faces = dice_faces
-    self.turn_payment = turn_payment
-    self.winner = None
-    self.turns_counter = 0
-    self.turns_limit = turns_limit
+    self._players = players
+    self._buildings = buildings
+    self._dice_faces = dice_faces
+    self._turn_payment = turn_payment
+    self._winner = None
+    self._turns_counter = 0
+    self._turns_limit = turns_limit
 
     self.shuffle_players()
 
   def reset(self):
-    self.winner = None
-    self.turns_counter = 0
+    self._winner = None
+    self._turns_counter = 0
     self.shuffle_players()
-    for player in self.players:
+    for player in self._players:
       player.reset()
-    for building in self.buildings:
+    for building in self._buildings:
       building.reset()
 
   def add_player(self, player):
-    self.players.append(player)
+    self._players.append(player)
 
   def add_building(self, building):
-    self.buildings.append(building)
+    self._buildings.append(building)
 
   def shuffle_players(self):
-    random.shuffle(self.players)
+    random.shuffle(self._players)
   
   """TODO: create separate class for Dice and DicePooling"""
   def roll_dice(self):
-    return random.randint(1, self.dice_faces)
+    return random.randint(1, self._dice_faces)
 
   """The following function moves a given player through the buildings list.
   The movement is equivalent of the dice rolling result.
@@ -44,9 +44,9 @@ class GameTable:
   """
   def move_player(self, player):
     player.move_position(self.roll_dice())
-    if (player.position > len(self.buildings)):
-      player.move_position(-len(self.buildings))
-      player.receive_money(self.turn_payment)
+    if (player.get_position() > len(self._buildings)):
+      player.move_position(-len(self._buildings))
+      player.receive_money(self._turn_payment)
 
   """Once moved, the player must enter the building of its position.
   The following funciton apply all the actions of entering a building.
@@ -54,9 +54,9 @@ class GameTable:
   The given player is willing to buy according the do_buy abstrct method.
   """
   def enter_building(self, player):
-    building = self.buildings[player.position]
-    if (player != building.owner):
-      if (building.owner):
+    building = self._buildings[player.get_position()]
+    if (player != building.get_owner()):
+      if (building.get_owner()):
         player.pay_rent(building)
       elif (player.do_buy(building)):
         player.buy_building(building)
@@ -67,17 +67,19 @@ class GameTable:
     if confirmed, expropriates all its buildings in this game table
   """
   def end_players_shift(self, player):
-    if (player.lose):
-      for building in filter(lambda building: building.owner == player, self.buildings):
+    if (not player.is_playing()):
+      for building in filter(lambda building: building.get_owner() == player, self._buildings):
         building.expropriate_building()
 
   def has_timedout(self):
-    return self.turns_counter >= self.turns_limit
+    return self._turns_counter >= self._turns_limit
 
   """Runs the phases of a turn, iterating players until the end condition of the game is fulfiled."""
   def run(self):
-    while not self.winner and not self.has_timedout():
-      for player in self.players:
-        self.move_player(player)
-        self.enter_building(player)
-      self.turns_counter += 1
+    while not self._winner and not self.has_timedout():
+      for player in self._players:
+        if player.is_playing():
+          self.move_player(player)
+          self.enter_building(player)
+          self.end_players_shift(player)
+      self._turns_counter += 1

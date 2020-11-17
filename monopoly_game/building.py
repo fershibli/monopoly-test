@@ -1,16 +1,24 @@
 """This class manages all commom actions and attributes of a single building of the GameTable class."""
 class Building:
   def __init__(self, name, sell_cost, rent_cost):
-    self.name =  name
-    self.sell_cost = sell_cost
-    self.rent_cost = rent_cost
-    self.owner = None
+    self._sell_cost = sell_cost
+    self._rent_cost = rent_cost
+    self._owner = None
   
   def reset(self):
-    self.owner = None
+    self._owner = None
+
+  def get_sell_cost(self):
+    return self._sell_cost
+
+  def get_rent_cost(self):
+    return self._rent_cost
+    
+  def get_owner(self):
+    return self._owner
 
   def expropriate_building(self):
-    self.owner = None
+    self._owner = None
 
   def appropriate_building(self, player):
-    self.owner = player
+    self._owner = player

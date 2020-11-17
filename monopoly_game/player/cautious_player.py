@@ -5,4 +5,4 @@ class CautiousPlayer(AbstractPlayer):
   by checking if the player has at least 80 more money than the building's sell_cost.
   """
   def do_buy(self, building): 
-    return self.money > building.sell_cost + 80
+    return self._money > building.get_sell_cost() + 80
