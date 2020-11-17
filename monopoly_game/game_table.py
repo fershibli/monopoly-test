@@ -1,3 +1,4 @@
+import logging as log
 import random
 
 """This class manages all players, buildings and its tools.
@@ -36,9 +37,11 @@ class GameTable:
 
   def add_player(self, player):
     self._players.append(player)
+    log.info(f'add player {player.get_name()}')
 
   def add_building(self, building):
     self._buildings.append(building)
+    log.info(f'add building {building.get_name()}')
 
   def shuffle_players(self):
     random.shuffle(self._players)
@@ -53,8 +56,10 @@ class GameTable:
   """
   def move_player(self, player):
     player.move_position(self.roll_dice())
-    if (player.get_position() > len(self._buildings)):
+    log.info(f'player moved to: {player.get_position()}')
+    if (player.get_position() >= len(self._buildings)):
       player.move_position(-len(self._buildings))
+      log.info(f'player realocated to: {player.get_position()}')
       player.receive_money(self._turn_payment)
 
   """Once moved, the player must enter the building of its position.
@@ -77,6 +82,7 @@ class GameTable:
   """
   def end_players_shift(self, player):
     if (not player.is_playing()):
+      log.info(f'player {player.get_name()} lost the game')
       for building in filter(lambda building: building.get_owner() == player, self._buildings):
         building.expropriate_building()
 
@@ -85,7 +91,11 @@ class GameTable:
     while not self._winner and not self.has_timedout():
       for player in self._players:
         if player.is_playing():
+          log.info(f'player {player.get_name()} turn')
           self.move_player(player)
           self.enter_building(player)
           self.end_players_shift(player)
       self._turns_counter += 1
+    if not self._winner: 
+      self._winner = next(filter(lambda player: player.is_playing(), self._players))
+    log.info(f'player {self._winner.get_name()} won the game')
