@@ -1,0 +1,29 @@
+name,type,color,spaces,cost,mortgage,house_price,rent_0,rent_1,rent_2,rent_3,rent_4,rent_hotel
+Mediterranean,street,purple,1,60,30,50,2,10,30,90,160,250
+Baltic,street,purple,3,60,30,50,4,20,60,180,320,450
+Reading RR,railroad,,5,200,100,,,,,,,
+Oriental,street,lightblue,6,100,50,50,6,30,90,270,400,550
+Vermont,street,lightblue,8,100,50,50,6,30,90,270,400,550
+Connecticut,street,lightblue,9,120,60,50,8,40,100,300,450,600
+St. Charles,street,violet,11,140,70,100,10,50,150,450,625,750
+Electric Company,utility,,12,150,75,,,,,,,
+States,street,violet,13,140,70,100,10,50,150,450,625,750
+Virginia,street,violet,14,160,80,100,12,60,180,500,700,900
+Pennsylvania RR,railroad,,15,200,100,,,,,,,
+St. James,street,orange,16,180,90,100,14,70,200,550,750,950
+Tennessee,street,orange,18,180,90,100,14,70,200,550,750,950
+New York,street,orange,19,200,100,100,16,80,220,600,800,1000
+Kentucky,street,red,21,220,110,150,18,90,250,700,875,1050
+Indiana,street,red,23,220,110,150,18,90,250,700,875,1050
+Illinois,street,red,24,240,120,150,20,100,300,750,925,1100
+B&O RR,railroad,,25,200,100,,,,,,,
+Atlantic,street,yellow,26,260,130,150,22,110,330,800,975,1150
+Ventnor,street,yellow,27,260,130,150,22,110,330,800,975,1150
+Water Works,utility,,28,150,75,,,,,,,
+Marvin Gardens,street,yellow,29,280,140,150,24,120,360,850,1025,1200
+Pacific,street,darkgreen,31,300,150,200,26,130,390,900,1100,1275
+N. Carolina,street,darkgreen,32,300,150,200,26,130,390,900,1100,1275
+Pennsylvania,street,darkgreen,34,320,160,200,28,150,450,1000,1200,1400
+Short Line RR,railroad,,35,200,100,,,,,,,
+Park Place,street,darkblue,37,350,175,200,35,175,500,1100,1300,1500
+Boardwalk,street,darkblue,39,400,200,200,50,200,600,1400,1700,2000
