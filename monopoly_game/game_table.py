@@ -25,6 +25,15 @@ class GameTable:
     for building in self._buildings:
       building.reset()
 
+  def get_winner(self):
+    return self._winner
+
+  def get_turns_counter(self):
+    return self._turns_counter
+  
+  def has_timedout(self):
+    return self._turns_counter >= self._turns_limit
+
   def add_player(self, player):
     self._players.append(player)
 
@@ -70,9 +79,6 @@ class GameTable:
     if (not player.is_playing()):
       for building in filter(lambda building: building.get_owner() == player, self._buildings):
         building.expropriate_building()
-
-  def has_timedout(self):
-    return self._turns_counter >= self._turns_limit
 
   """Runs the phases of a turn, iterating players until the end condition of the game is fulfiled."""
   def run(self):
