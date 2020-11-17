@@ -26,8 +26,14 @@ class GameTable:
     for building in self._buildings:
       building.reset()
 
-  def get_winner(self):
-    return self._winner
+  def get_winning_ratio(self):
+    winning_ratio = {}
+    for player in self._players:
+      winning_ratio[type(player).__name__] = {
+        "name": player.get_name(),
+        "winning_count": player.get_winning_count()
+      }
+    return winning_ratio
 
   def get_turns_counter(self):
     return self._turns_counter
@@ -96,6 +102,9 @@ class GameTable:
     if len(current_players) == 1:
       self._winner = current_players[0]
 
+  def end_by_timeout(self):
+    self._winner = next(filter(lambda player: player.is_playing(), self._players))
+
   """Runs the phases of a turn, iterating players until the end condition of the game is fulfiled."""
   def run(self):
     while not self._winner and not self.has_timedout():
@@ -105,7 +114,9 @@ class GameTable:
         self.enter_building(player)
         self.end_shift(player)
       self.end_turn()
-    if not self._winner: 
-      self._winner = next(filter(lambda player: player.is_playing(), self._players))
+
+    if not self._winner:
+      self.end_by_timeout()
+
     self._winner.won()
     log.info(f'player {self._winner.get_name()} won the game in {self._turns_counter} turns, with {self._winner.get_money()}$.')
